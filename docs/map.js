@@ -31,7 +31,10 @@ L.marker([54.325541733763515, -5.7182889832314325]).addTo(map)
     L.marker([54.32626985458656, -5.718912657672032]).addTo(map)
     .bindPopup('Downpatrick Library')
     .openPopup();
- 
+
+    L.marker([54.32741443921434, -5.722009953486733]).addTo(map)
+    .bindPopup('Downpatrick Library')
+    .openPopup();
  
 if ('geolocation' in navigator) {
     console.log('Geolocation is Available');
@@ -43,9 +46,3 @@ if ('geolocation' in navigator) {
   }
   
   navigator.geolocation.getCurrentPosition(success);
-
- 
-  
-  
-  
-    

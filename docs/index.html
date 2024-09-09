@@ -5,7 +5,7 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
-         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
         <meta charset="utf-8">
@@ -14,30 +14,47 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin=""/>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
+        <style>
+            #map {
+                position: relative;
+                height: 100vh; /* Use viewport height (vh) to make it responsive */
+                width: 100vw; /* Use viewport width (vw) to make it responsive */
+                margin: 10px auto; /* Add some margin to center it */
+                position: relative; /* Add relative positioning to the map */
+            }
+            #getLocation {
+                position: absolute; /* Use absolute positioning for the button */
+                bottom: 10px; /* Position the button 10px from the bottom */
+                left: 10px; /* Position the button 10px from the left */
+                z-index: 1000;
+            }
+        </style>
     </head>
     <body>
-        <div id="map"></div>
-        <p></p>
+        <div id="map">
+            <button id="getLocation">Get Location</button>
+        </div>
+        <br>
+        <a id="locationResult" target="_blank"></a>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         
-        <script src="map.js" async defer></script>
-      
-        <button id="getLocation">Get Location</button>
-        <br>
-        <a id="locationResult" target="_blank"></a>
         <script>
+            // Create the map instance
+            const map = L.map('map').setView([54.325541733763515, -5.7182889832314325], 100);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+                subdomains: ['a', 'b', 'c']
+            }).addTo(map);
+
             const locationResult = document.querySelector('#locationResult');
             document.querySelector('#getLocation').addEventListener('click', () => {
-              locationResult.textContent = 'Retrieving User Location...'
-          
+              locationResult.textContent = 'Retrieving User Location...';
+
               function success(position) {
                 const { coords } = position;
                 console.log('Latitude data: ' + coords.latitude);
@@ -48,14 +65,51 @@
                 .openPopup();
                 // Store the ID number in a variable
                 const watcherID = navigator.geolocation.watchPosition(success);
-  
+
                  // Stop the watcher
                 navigator.geolocation.clearWatch(watcherID);
               }
-              
-          
+
               navigator.geolocation.getCurrentPosition(success);
             });
-          </script>
+
+            // Function to add markers
+            function addMarkers() {
+                L.marker([54.325541733763515, -5.7182889832314325]).addTo(map)
+                .bindPopup('This site was made<br>in this classroom :D')
+                .openPopup();
+
+                L.marker([54.32582875328702, -5.719314989022636]).addTo(map)
+                .bindPopup('This is the local bus depot')
+                .openPopup();
+                
+                L.marker([54.325036883844284, -5.71909536748454]).addTo(map)
+                .bindPopup('Topaz Filling Station')
+                .openPopup();
+
+                L.marker([54.32472437065648, -5.7193537333490925]).addTo(map)
+                .bindPopup('Apache Pizza')
+                .openPopup();
+
+                L.marker([54.32587024074349, -5.718010868793115]).addTo(map)
+                .bindPopup('Lidl (grocery shop)')
+                .openPopup();
+
+                L.marker([54.32522848302366, -5.718208630319069]).addTo(map)
+                .bindPopup('Serc Downpatrick Campus')
+                .openPopup();
+
+                L.marker([54.32626985458656, -5.718912657672032]).addTo(map)
+                .bindPopup('Downpatrick Library')
+                .openPopup();
+
+                L.marker([54.327326936430424, -5.722037912377352]).addTo(map)
+                .bindPopup('St Patricks grave')
+                .openPopup();
+            }
+
+            // Call the addMarkers function
+            addMarkers();
+        </script>
     </body>
 </html>
